@@ -1,0 +1,51 @@
+<div id="calculator">
+    <div id="interface">
+        Sales Price: <input type="number" id="sales-price" name="sales-price" onkeyup="calculatePremium()"><p id="error" style="color: red;"></p><br>
+        Premium: <span id="premium" style="font-weight: bold;"></span>
+    </div>
+    <script>
+        var formatter = new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD',
+        });
+
+        function calculatePremium() {
+            let salesPrice = document.getElementById("sales-price").value.trim();
+            let error = document.getElementById("error");
+            let premium = document.getElementById("premium");
+
+            if (isNaN(salesPrice)) {
+                error.innerText = "Please enter a number.";
+                premium.innerText = "";
+            } else if (salesPrice == "" || salesPrice == null) {
+                error.innerText = "";
+                premium.innerText = "";
+                return;
+            } else {
+                error.innerText = "";
+            }
+
+            if (salesPrice < 100000) {
+                premium.innerText = "";
+                error.innerText = "Please enter a number more than $100,000 or refer to the chart.";
+            } else if (salesPrice == 100000) {
+                premium.innerText = formatter.format(832);
+            } else if (salesPrice <= 1000000) {
+                premium.innerText = formatter.format(Math.round((salesPrice - 100000) * 0.00527) + 832);
+            } else if (salesPrice <= 5000000) {
+                premium.innerText = formatter.format(Math.round((salesPrice - 1000000) * 0.00433) + 5575);
+            } else if (salesPrice <= 15000000) {
+                premium.innerText = formatter.format(Math.round((salesPrice - 5000000) * 0.00357) + 22895);
+            } else if (salesPrice <= 25000000) {
+                premium.innerText = formatter.format(Math.round((salesPrice - 15000000) * 0.00254) + 58595);
+            } else if (salesPrice <= 50000000) {
+                premium.innerText = formatter.format(Math.round((salesPrice - 25000000) * 0.00152) + 83995);
+            } else if (salesPrice <= 100000000) {
+                premium.innerText = formatter.format(Math.round((salesPrice - 50000000) * 0.00138) + 121995);
+            } else if (salesPrice > 100000000) {
+                premium.innerText = formatter.format(Math.round((salesPrice - 100000000) * 0.00124) + 190995);
+            }
+        }
+    </script>
+
+</div>
